@@ -1,0 +1,50 @@
+{
+  "name": "react-braintree-custom-dropin",
+  "version": "1.0.0",
+  "description": "React Component to handle Hosted Fields and Paypal like Braintree DropIn does",
+  "main": "build/index.cjs.js",
+  "module": "build/index.esm.js",
+  "repository": "git@github.com:elrumordelaluz/react-braintree-custom-dropin.git",
+  "author": "Lionel T <elrumordelaluz@hotmail.com> (https://elrumordelaluz.com/)",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "7.1.6",
+    "@babel/plugin-proposal-class-properties": "7.1.0",
+    "@babel/plugin-proposal-object-rest-spread": "7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "7.0.0",
+    "@babel/plugin-transform-runtime": "7.1.0",
+    "@babel/preset-env": "7.1.6",
+    "@babel/preset-react": "7.0.0",
+    "babel-loader": "8.0.4",
+    "react": "16.6.3",
+    "react-dom": "16.6.3",
+    "rimraf": "2.6.2",
+    "rollup": "0.67.3",
+    "rollup-plugin-babel": "4.0.3",
+    "rollup-plugin-commonjs": "9.2.0",
+    "rollup-plugin-filesize": "5.0.1",
+    "rollup-plugin-node-resolve": "3.4.0",
+    "webpack": "4.26.0",
+    "webpack-cli": "3.1.2",
+    "webpack-dev-server": "3.1.10"
+  },
+  "peerDependencies": {
+    "prop-types": "15.6.2",
+    "react": "16.6.3",
+    "react-dom": "16.6.3"
+  },
+  "dependencies": {
+    "@babel/runtime": "7.1.5",
+    "braintree-web": "3.39.0",
+    "paypal-checkout": "4.0.235"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "webpack-dev-server"
+  },
+  "files": [
+    "build",
+    "README.md"
+  ]
+}
