@@ -1,2 +1,2 @@
-import CustomDropin from './CustomDropin'
-export default CustomDropin
+import { DropIn, HostedField } from './DropIn'
+export { HostedField, DropIn }
