@@ -228,7 +228,14 @@ class Field extends Component {
   }
 
   render() {
-    return <div id={this.id} />
+    return (
+      <>
+        {this.props.children &&
+          typeof this.props.children === 'function' &&
+          this.props.children(this.id)}
+        <div id={this.id} className={this.props.className} />
+      </>
+    )
   }
 }
 

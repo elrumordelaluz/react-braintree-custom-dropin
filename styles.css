@@ -1,0 +1,42 @@
+.body {
+  font-family: courier, monospace;
+  font-weight: 300;
+}
+
+.container {
+  border: 1px solid #dedede;
+  border-radius: 4px;
+  min-height: 300px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 500px;
+  margin: 0.75rem auto;
+}
+
+.fieldContainer {
+  position: relative;
+  height: 100px;
+}
+
+.field {
+  border-top: solid 1px #dee2e5;
+  border-bottom: solid 1px #dee2e5;
+  position: relative;
+  height: 100%;
+  padding-left: 1em;
+}
+
+.focused {
+  transform: scale(0.8) translate(0, -3em);
+}
+
+.label {
+  position: absolute;
+  font-family: courier, monospace;
+  top: 1.5em;
+  left: 0.5em;
+  transition: transform 0.2s cubic-bezier(0.2, 1.3, 0.7, 1), color 0.2s;
+  transform-origin: 0 0;
+  font-size: 1.5em;
+  line-height: 1;
+}

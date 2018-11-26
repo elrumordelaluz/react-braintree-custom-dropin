@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { render } from 'react-dom'
 import { DropIn, HostedField, PaypalButton } from './src/index'
+import cn from 'classnames'
+import './styles.css'
 
 const styles = {
   input: {
@@ -8,6 +10,10 @@ const styles = {
     'font-family': 'courier, monospace',
     'font-weight': 'lighter',
     color: '#ccc',
+    padding: '1em 0',
+  },
+  label: {
+    height: '30px',
   },
   ':focus': {
     color: 'black',
@@ -39,56 +45,97 @@ const onSubmit = async getPayload => {
     .catch(err => console.log({ err }))
 }
 
-const Payment = () => (
-  <DropIn
-    authorization="sandbox_bd423mtc_48gzm6fs32mwz2x3"
-    styles={styles}
-    ns="holaaa"
-  >
-    {({ getPayload, paypalPayload, reset, ready }) => (
-      <>
-        {paypalPayload ? (
-          <span>
-            payal set <button onClick={reset}>reset</button>
-          </span>
-        ) : (
-          <>
-            <HostedField
-              type="number"
-              placeholder="4111 1111 1111 1111"
-              onFocus={onFocus}
-              onBlur={onBlur}
-            />
-            <HostedField
-              type="cvv"
-              placeholder="123"
-              prefill="456"
-              onFocus={onFocus}
-              onBlur={onBlur}
-            />
-            <PaypalButton
-              style={{
-                label: 'paypal',
-                size: 'medium',
-                shape: 'rect',
-                color: 'black',
-                tagline: false,
-              }}
-              onCancel={onCancel}
-              onError={onError}
-            />
-            <HostedField type="expirationDate" placeholder="11/19" />
-            <HostedField
-              type="expirationMonth"
-              placeholder="Month"
-              select={{ options: ['01- enero'] }}
-            />
-          </>
+class Payment extends Component {
+  state = {
+    focused: null,
+    fieldsEmpty: {
+      number: true,
+      expirationDate: true,
+      cvv: true,
+    },
+  }
+
+  onFocus = ({ emittedBy }) => {
+    this.setState({ focused: emittedBy })
+  }
+
+  onBlur = ({ emittedBy, fields }) => {
+    this.setState(prevState => ({
+      fieldsEmpty: {
+        ...prevState.fieldsEmpty,
+        [emittedBy]: fields[emittedBy].isEmpty,
+      },
+    }))
+  }
+
+  render() {
+    const { focused, fieldsEmpty } = this.state
+    return (
+      <DropIn
+        authorization="sandbox_bd423mtc_48gzm6fs32mwz2x3"
+        styles={styles}
+        ns="holaaa"
+      >
+        {({ getPayload, paypalPayload, reset, ready }) => (
+          <div className="container">
+            {paypalPayload ? (
+              <span>
+                payal set <button onClick={reset}>reset</button>
+              </span>
+            ) : (
+              <>
+                <PaypalButton
+                  style={{
+                    label: 'paypal',
+                    size: 'medium',
+                    shape: 'rect',
+                    color: 'black',
+                    tagline: false,
+                  }}
+                  onCancel={onCancel}
+                  onError={onError}
+                />
+                <br />
+
+                <div className="fieldContainer">
+                  <HostedField
+                    type="number"
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
+                    className="field"
+                  >
+                    {id => (
+                      <label
+                        className={cn('label', {
+                          focused:
+                            focused === 'number' || !fieldsEmpty['number'],
+                        })}
+                        htmlFor={id}
+                      >
+                        Card Number
+                      </label>
+                    )}
+                  </HostedField>
+                </div>
+
+                <HostedField
+                  type="cvv"
+                  placeholder="123"
+                  prefill="456"
+                  onFocus={this.onFocus}
+                />
+
+                <HostedField type="expirationDate" placeholder="11/19" />
+              </>
+            )}
+            {ready && (
+              <button onClick={() => onSubmit(getPayload)}>send</button>
+            )}
+          </div>
         )}
-        {ready && <button onClick={() => onSubmit(getPayload)}>send</button>}
-      </>
-    )}
-  </DropIn>
-)
+      </DropIn>
+    )
+  }
+}
 
 render(<Payment />, document.getElementById('root'))
