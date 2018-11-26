@@ -1,2 +1,2 @@
-import { DropIn, HostedField } from './DropIn'
-export { HostedField, DropIn }
+import { DropIn, HostedField, PaypalButton } from './DropIn'
+export { DropIn, HostedField, PaypalButton }

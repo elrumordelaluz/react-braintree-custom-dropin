@@ -1,53 +1,150 @@
 import React, { Component, createContext, forwardRef } from 'react'
+import ReactDOM from 'react-dom'
 import braintree from 'braintree-web'
 import PropTypes from 'prop-types'
 
 const { Provider, Consumer } = createContext(0)
 
-const cap = str => str.charAt(0).toUpperCase() + str.slice(1)
-
 const fieldEvents = [
-  'blur',
-  'focus',
-  'emty',
-  'notEmty',
-  'cardTypeChange',
-  'validityChange',
+  {
+    eventName: 'blur',
+    handlerName: 'onBlur',
+  },
+  {
+    eventName: 'focus',
+    handlerName: 'onFocus',
+  },
+  {
+    eventName: 'empty',
+    handlerName: 'onEmpty',
+  },
+  {
+    eventName: 'notEmpty',
+    handlerName: 'onNotEmpty',
+  },
+  {
+    eventName: 'cardTypeChange',
+    handlerName: 'onCardTypeChange',
+  },
+  {
+    eventName: 'validityChange',
+    handlerName: 'onValidityChange',
+  },
 ]
 
 class DropIn extends Component {
   currId = 0
+  hostedFieldsInstance = null
+  paypalCheckoutInstance = null
+
   state = {
     client: null,
     fields: {},
     handlers: {},
     addField: options => this.addField(options),
+    addPaypalButton: options => this.addPaypalButton(options),
+    PaypalBtn: null,
+    paypalPayload: null,
+    ready: false,
+  }
+
+  getPayload = async () => {
+    const { paypalPayload } = this.state
+    try {
+      if (paypalPayload) {
+        return paypalPayload
+      } else {
+        const hostedFieldsState = this.hostedFieldsInstance.getState()
+        const allValid = Object.keys(hostedFieldsState.fields).every(
+          key => hostedFieldsState.fields[key].isValid
+        )
+        if (allValid) {
+          return await this.hostedFieldsInstance.tokenize()
+        } else {
+          return Promise.reject('not all valid')
+        }
+      }
+    } catch (err) {
+      return Promise.reject(err)
+    }
   }
 
   async componentDidMount() {
-    const { authorization } = this.props
+    await this.init()
+  }
+
+  init = async () => {
+    this.setState({ ready: false })
+    const { authorization, paypal, loader: PaypalBtn } = this.props
     const client = await braintree.client.create({
       authorization,
     })
     await this.initHostedFields(client)
-    this.setState({ client })
+    if (paypal) {
+      this.setState({ PaypalBtn })
+      await this.initPaypal(client)
+    }
+    this.setState({ client, ready: true })
   }
 
   async initHostedFields(client) {
     const { fields, handlers } = this.state
     const { styles } = this.props
-    const hostedFields = await braintree.hostedFields.create({
-      client,
-      styles,
-      fields,
-    })
-    fieldEvents.map(e => {
-      hostedFields.on(e, event => {
-        const eventName = `on${cap(e)}`
-        if (handlers[event.emittedBy][eventName]) {
-          handlers[event.emittedBy][eventName](event)
+    const hostedFields = (this.hostedFieldsInstance = await braintree.hostedFields.create(
+      {
+        client,
+        styles,
+        fields,
+      }
+    ))
+
+    fieldEvents.map(({ eventName, handlerName }) => {
+      hostedFields.on(eventName, event => {
+        if (handlers[event.emittedBy][handlerName]) {
+          handlers[event.emittedBy][handlerName](event)
         }
       })
+    })
+  }
+
+  async initPaypal(client) {
+    const { authorization, env } = this.props
+    const paypalCheckoutInstance = (this.paypalCheckoutInstance = await braintree.paypalCheckout.create(
+      {
+        client,
+      }
+    ))
+    const paypal = await import('paypal-checkout')
+
+    const Btn = paypal.Button.driver('react', { React, ReactDOM })
+
+    const payment = () => {
+      return paypalCheckoutInstance.createPayment({
+        flow: 'vault',
+      })
+    }
+
+    const onAuthorize = async (data, actions) => {
+      const paypalPayload = await paypalCheckoutInstance.tokenizePayment(data)
+      this.setState({ paypalPayload })
+    }
+
+    const PaypalBtn = props => (
+      <Btn
+        {...props}
+        braintree={braintree}
+        client={{
+          sandbox: env === 'sandbox' ? authorization : '',
+          production: env === 'production' ? authorization : '',
+        }}
+        payment={payment}
+        onAuthorize={onAuthorize}
+        env={env}
+      />
+    )
+
+    this.setState({
+      PaypalBtn,
     })
   }
 
@@ -63,7 +160,7 @@ class DropIn extends Component {
     rejectUnsupportedCards,
     ...rest
   }) {
-    const id = `bt-custom-${this.currId++}`
+    const id = `${this.props.ns}-${type}-${this.currId++}`
     const attrs = {
       placeholder,
       formatInput,
@@ -87,13 +184,41 @@ class DropIn extends Component {
     return id
   }
 
+  resetPaymentMethod = async () => {
+    await this.paypalCheckoutInstance.teardown()
+    await this.hostedFieldsInstance.teardown()
+    this.setState({ paypalPayload: null })
+    this.init()
+  }
+
   render() {
-    return <Provider value={this.state}>{this.props.children}</Provider>
+    const { paypalPayload, ready } = this.state
+    return (
+      <Provider value={this.state}>
+        {this.props.children({
+          getPayload: this.getPayload,
+          paypalPayload,
+          reset: this.resetPaymentMethod,
+          ready,
+        })}
+      </Provider>
+    )
   }
 }
 
 DropIn.propTypes = {
   styles: PropTypes.object,
+  ns: PropTypes.string,
+  paypal: PropTypes.bool,
+  env: PropTypes.oneOf(['sandbox', 'production']),
+  loader: PropTypes.func,
+}
+
+DropIn.defaultProps = {
+  ns: 'bt-custom',
+  paypal: true,
+  env: 'sandbox',
+  loader: () => <span>Loading…</span>,
 }
 
 class Field extends Component {
@@ -109,7 +234,7 @@ class Field extends Component {
 
 const HostedField = forwardRef((props, ref) => (
   <Consumer>
-    {({ addField, client }) => (
+    {({ addField, client, paypalPayload }) => (
       <Field {...props} addField={addField} client={client} ref={ref} />
     )}
   </Consumer>
@@ -147,10 +272,16 @@ HostedField.propTypes = {
   // https://braintree.github.io/braintree-web/current/HostedFields.html#on
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
-  onEmty: PropTypes.func,
-  onNotEmty: PropTypes.func,
+  onEmpty: PropTypes.func,
+  onNotEmpty: PropTypes.func,
   onCardTypeChange: PropTypes.func,
   onValidityChange: PropTypes.func,
 }
 
-export { DropIn, HostedField }
+const PaypalButton = props => (
+  <Consumer>
+    {({ PaypalBtn }) => PaypalBtn && <PaypalBtn {...props} />}
+  </Consumer>
+)
+
+export { DropIn, HostedField, PaypalButton }
