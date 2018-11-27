@@ -1514,8 +1514,8 @@ cross-domain-safe-weakmap@^1.0.1, cross-domain-safe-weakmap@^1.0.22:
     cross-domain-utils "^2.0.0"
 
 cross-domain-utils@^2.0.0, cross-domain-utils@^2.0.1, cross-domain-utils@^2.0.16:
-  version "2.0.16"
-  resolved "https://registry.yarnpkg.com/cross-domain-utils/-/cross-domain-utils-2.0.16.tgz#8837ef96a51499c258891784c06d9f8cbd919c81"
+  version "2.0.18"
+  resolved "https://registry.yarnpkg.com/cross-domain-utils/-/cross-domain-utils-2.0.18.tgz#2fdfa07cfc1af5dcd39b84dbbfe904f1fdc29897"
   dependencies:
     zalgo-promise "^1.0.11"
 

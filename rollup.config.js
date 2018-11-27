@@ -22,7 +22,13 @@ const config = {
       format: 'es',
     },
   ],
-  external: ['react', 'braintree-web', 'paypal-checkout', 'prop-types'],
+  external: [
+    'react',
+    'react-dom',
+    'braintree-web',
+    'paypal-checkout',
+    'prop-types',
+  ],
   plugins: [babel({ runtimeHelpers: true }), resolve(), commonjs(), filesize()],
 }
 
