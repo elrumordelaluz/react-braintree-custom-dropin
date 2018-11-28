@@ -300,4 +300,7 @@ const PaypalButton = props => (
   </Consumer>
 )
 
+// https://developer.paypal.com/docs/checkout/quick-start/
+// https://developer.paypal.com/docs/checkout/how-to/customize-button/#button-styles
+
 export { DropIn, HostedField, PaypalButton }
