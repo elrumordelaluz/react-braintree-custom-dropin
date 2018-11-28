@@ -73,6 +73,15 @@ class DropIn extends Component {
     await this.init()
   }
 
+  async componentWillUnmount() {
+    if (this.hostedFieldsInstance) {
+      await this.hostedFieldsInstance.teardown()
+    }
+    if (this.paypalCheckoutInstance) {
+      await this.paypalCheckoutInstance.teardown()
+    }
+  }
+
   init = async () => {
     this.setState({ ready: false })
     const { authorization, paypal, loader: PaypalBtn } = this.props
