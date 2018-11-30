@@ -19,7 +19,7 @@
     "braintree-web": "3.39.0",
     "classnames": "2.2.6",
     "css-loader": "1.0.1",
-    "paypal-checkout": "4.0.235",
+    "paypal-checkout": "4.0.238",
     "react": "16.6.3",
     "react-dom": "16.6.3",
     "rimraf": "2.6.2",
@@ -34,8 +34,7 @@
     "webpack-dev-server": "3.1.10"
   },
   "peerDependencies": {
-    "braintree-web": "3.39.0",
-    "paypal-checkout": "4.0.235",
+    "braintree-web": "3.39.x",
     "prop-types": "15.6.2",
     "react": "^16.3",
     "react-dom": "^16.3"

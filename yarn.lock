@@ -1514,8 +1514,8 @@ cross-domain-safe-weakmap@^1.0.1, cross-domain-safe-weakmap@^1.0.22:
     cross-domain-utils "^2.0.0"
 
 cross-domain-utils@^2.0.0, cross-domain-utils@^2.0.1, cross-domain-utils@^2.0.16:
-  version "2.0.18"
-  resolved "https://registry.yarnpkg.com/cross-domain-utils/-/cross-domain-utils-2.0.18.tgz#2fdfa07cfc1af5dcd39b84dbbfe904f1fdc29897"
+  version "2.0.20"
+  resolved "https://registry.yarnpkg.com/cross-domain-utils/-/cross-domain-utils-2.0.20.tgz#e102e46a6919eef4d8ac8c099efa72196d65c55f"
   dependencies:
     zalgo-promise "^1.0.11"
 
@@ -3453,9 +3453,9 @@ path-to-regexp@0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
 
-paypal-checkout@4.0.235:
-  version "4.0.235"
-  resolved "https://registry.yarnpkg.com/paypal-checkout/-/paypal-checkout-4.0.235.tgz#078fc06c560763f99c3aa97ea03e2d82b890a04e"
+paypal-checkout@4.0.238:
+  version "4.0.238"
+  resolved "https://registry.yarnpkg.com/paypal-checkout/-/paypal-checkout-4.0.238.tgz#efbb63a9b39cb2645da45bba12674d5371732588"
   dependencies:
     Base64 "^1.0.0"
     beaver-logger "^3.0.6"
