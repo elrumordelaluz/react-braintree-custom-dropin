@@ -79,6 +79,7 @@ class DropIn extends Component {
     }
     if (this.paypalCheckoutInstance) {
       await this.paypalCheckoutInstance.teardown()
+      this.setState({ PaypalBtn: null })
     }
   }
 
