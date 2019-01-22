@@ -4027,7 +4027,7 @@ path-to-regexp@0.1.7:
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
   integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
 
-paypal-checkout@4.x.x:
+paypal-checkout@4.0.247:
   version "4.0.247"
   resolved "https://registry.yarnpkg.com/paypal-checkout/-/paypal-checkout-4.0.247.tgz#67d2de8dd5f826b5748a8bace0120e5999af2d32"
   integrity sha512-yB9QVhCeKrYr2ozJBrFSnCdhxQKEE4lVLUpfW7DfMMOERlOrcanrgweNvtTNdGGeFec3ePrDbvfEX/SN73/a8w==
