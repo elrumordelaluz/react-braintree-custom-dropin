@@ -121,7 +121,6 @@ class Payment extends Component {
                 <HostedField
                   type="cvv"
                   placeholder="123"
-                  prefill="456"
                   onFocus={this.onFocus}
                 />
 
