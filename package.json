@@ -45,7 +45,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "prepublish": "yarn build"
   },
   "files": [
     "build",
