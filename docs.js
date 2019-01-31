@@ -47,6 +47,7 @@ const onSubmit = async getPayload => {
 
 class Payment extends Component {
   state = {
+    paypalReady: false,
     focused: null,
     fieldsEmpty: {
       number: true,
@@ -68,8 +69,14 @@ class Payment extends Component {
     }))
   }
 
+  onEnterPP = () => {
+    this.setState({
+      paypalReady: true,
+    })
+  }
+
   render() {
-    const { focused, fieldsEmpty } = this.state
+    const { focused, fieldsEmpty, paypalReady } = this.state
     return (
       <DropIn
         authorization="sandbox_bd423mtc_48gzm6fs32mwz2x3"
@@ -84,17 +91,20 @@ class Payment extends Component {
               </span>
             ) : (
               <>
-                <PaypalButton
-                  style={{
-                    label: 'paypal',
-                    size: 'medium',
-                    shape: 'rect',
-                    color: 'black',
-                    tagline: false,
-                  }}
-                  onCancel={onCancel}
-                  onError={onError}
-                />
+                <span style={{ opacity: paypalReady ? 1 : 0.3 }}>
+                  <PaypalButton
+                    style={{
+                      label: 'paypal',
+                      size: 'medium',
+                      shape: 'rect',
+                      color: 'black',
+                      tagline: false,
+                    }}
+                    onCancel={onCancel}
+                    onError={onError}
+                    onEnter={this.onEnterPP}
+                  />
+                </span>
                 <br />
 
                 <div className="fieldContainer">
