@@ -54,14 +54,14 @@ class DropIn extends Component {
       if (paypalPayload) {
         return paypalPayload
       } else {
-        const hostedFieldsState = this.hostedFieldsInstance.getState()
-        const allValid = Object.keys(hostedFieldsState.fields).every(
-          key => hostedFieldsState.fields[key].isValid
+        const { fields } = this.hostedFieldsInstance.getState()
+        const invalidFields = Object.keys(fields).filter(
+          field => !fields[field].isValid
         )
-        if (allValid) {
+        if (invalidFields.length === 0) {
           return await this.hostedFieldsInstance.tokenize()
         } else {
-          return Promise.reject('not all valid')
+          return Promise.reject(invalidFields)
         }
       }
     } catch (err) {
