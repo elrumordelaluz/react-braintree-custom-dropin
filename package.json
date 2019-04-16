@@ -1,6 +1,6 @@
 {
   "name": "react-braintree-custom-dropin",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "React Component to handle Hosted Fields and Paypal like Braintree DropIn does",
   "main": "build/index.cjs.js",
   "module": "build/index.esm.js",
