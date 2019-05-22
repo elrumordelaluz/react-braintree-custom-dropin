@@ -41,7 +41,7 @@ const onError = err => {
 
 const onSubmit = async getPayload => {
   getPayload()
-    .then(payload => console.log({ payload }))
+    .then(payload => alert(JSON.stringify(payload, true, 2)))
     .catch(err => console.log({ err }))
 }
 
@@ -106,13 +106,15 @@ class Payment extends Component {
                   />
                 </span>
                 <br />
-
+                <br />
                 <div className="fieldContainer">
                   <HostedField
                     type="number"
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
                     className="field"
+                    prefill="4111111111111111"
+                    onNotEmpty={this.onBlur}
                   >
                     {id => (
                       <label
