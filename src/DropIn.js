@@ -217,6 +217,7 @@ class DropIn extends Component {
 
 DropIn.propTypes = {
   styles: PropTypes.object,
+  authorization: PropTypes.string,
   ns: PropTypes.string,
   paypal: PropTypes.bool,
   env: PropTypes.oneOf(['sandbox', 'production']),
