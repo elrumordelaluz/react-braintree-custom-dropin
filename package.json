@@ -8,29 +8,29 @@
   "author": "Lionel T <elrumordelaluz@hotmail.com> (https://elrumordelaluz.com/)",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "7.4.5",
-    "@babel/plugin-proposal-class-properties": "7.4.4",
-    "@babel/plugin-proposal-object-rest-spread": "7.4.4",
+    "@babel/core": "7.5.4",
+    "@babel/plugin-proposal-class-properties": "7.5.0",
+    "@babel/plugin-proposal-object-rest-spread": "7.5.4",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
-    "@babel/plugin-transform-runtime": "7.4.4",
-    "@babel/preset-env": "7.4.5",
+    "@babel/plugin-transform-runtime": "7.5.0",
+    "@babel/preset-env": "7.5.4",
     "@babel/preset-react": "7.0.0",
     "babel-loader": "8.0.6",
-    "braintree-web": "3.46.0",
+    "braintree-web": "3.47.0",
     "classnames": "2.2.6",
     "css-loader": "3.0.0",
-    "paypal-checkout": "4.0.275",
+    "paypal-checkout": "4.0.280",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "rimraf": "2.6.3",
-    "rollup": "1.15.6",
-    "rollup-plugin-babel": "4.3.2",
-    "rollup-plugin-commonjs": "10.0.0",
+    "rollup": "1.16.7",
+    "rollup-plugin-babel": "4.3.3",
+    "rollup-plugin-commonjs": "10.0.1",
     "rollup-plugin-filesize": "6.1.1",
-    "rollup-plugin-node-resolve": "5.0.3",
+    "rollup-plugin-node-resolve": "5.2.0",
     "style-loader": "0.23.1",
-    "webpack": "4.35.0",
-    "webpack-cli": "3.3.4",
+    "webpack": "4.35.3",
+    "webpack-cli": "3.3.5",
     "webpack-dev-server": "3.7.2"
   },
   "peerDependencies": {
@@ -40,7 +40,7 @@
     "react-dom": ">= 1.6.3"
   },
   "dependencies": {
-    "@babel/runtime": "7.4.5"
+    "@babel/runtime": "7.5.4"
   },
   "scripts": {
     "build": "rollup -c",
